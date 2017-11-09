@@ -3,7 +3,7 @@ title = "We'll Have To Look At The Data"
 theme = "ghostwriter"
 languageCode = "en-us"
 copyright = "Alex Denvir"
-disqusShortname = "XXX"
+disqusShortname = ""
 googleAnalytics = "XXX"
 
 [Author]
@@ -32,7 +32,7 @@ googleAnalytics = "XXX"
     post = "/:year/:month/:day/:filename/"
 
 [[menu.main]]
-    name = "Blog"
+    name = "Posts"
     url = "/"
     weight = 1
 
