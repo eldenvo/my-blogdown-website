@@ -1,13 +1,13 @@
 ---
-title: Hello R Markdown
-author: Frida Gomam
-date: '2015-07-24'
+title: Hello Test
+author: Alex D
+date: '2017-11-09'
+slug: hello-test
 categories:
   - R
+  - test
 tags:
-  - plot
   - R Markdown
-  - regression
 ---
 
 ```{r setup, include=FALSE}
@@ -39,3 +39,4 @@ pie(
   init.angle = -50, border = NA
 )
 ```
+
