@@ -1,0 +1,42 @@
+baseurl = "/"
+title = "We'll Have To Look At The Data"
+theme = "ghostwriter"
+languageCode = "en-us"
+copyright = "Alex Denvir"
+disqusShortname = "XXX"
+googleAnalytics = "XXX"
+
+[Author]
+    name = "Alex Denvir"
+    profile = "https://twitter.com/eldenvo"
+
+[Taxonomies]
+    tag = "tags"
+
+[Params]
+    intro = true
+    headline = "We'll Have To Look At The Data"
+    description = "Doing things with numbers and maps"
+    github = "https://github.com/eldenvo"
+    twitter = "https://twitter.com/eldenvo"
+    opengraph = true
+    shareTwitter = true
+    shareFacebook = false
+    shareGooglePlus = false
+    shareLinkedIn = false
+    dateFormat = "Mon, Jan 2, 2006"
+    highlightJsUrl = ""
+    highlightJsLocalUrl = ""
+
+[Permalinks]
+    post = "/:year/:month/:day/:filename/"
+
+[[menu.main]]
+    name = "Blog"
+    url = "/"
+    weight = 1
+
+[[menu.main]]
+    name = "About"
+    url = "/page/about/"
+    weight = 2
