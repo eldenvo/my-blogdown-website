@@ -4,7 +4,7 @@ theme = "ghostwriter"
 languageCode = "en-us"
 copyright = "Alex Denvir"
 disqusShortname = ""
-googleAnalytics = "XXX"
+googleAnalytics = "UA-109524941-1"
 
 [Author]
     name = "Alex Denvir"
