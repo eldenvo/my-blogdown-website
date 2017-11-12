@@ -11,9 +11,9 @@ If you live in London, or have ever visited it, you have probably used an [Oyste
 
 If you register your card with TfL, you can view your journey history (however you can only go back as far as 6 weeks). You can also set up TfL to email you at weekly or monthly intervals with your journeys in csv or pdf format. If you're someone like me, who loves the idea of collecting data like this, then this is too good an opportunity to pass up.
 
-![](/img/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph/oyster-journey-history-menu.png)
+![](/img/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph_images/oyster-journey-history-menu.png)
 
-![](/img/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph/oyster-journey-history-menu2.png)
+![](/img/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph_images/oyster-journey-history-menu2.png)
 
 I recent came across [this great post by Jesse Sadler](https://www.jessesadler.com/post/network-analysis-with-r/), which is a very good introduction to some network analysis concepts in R. 
 
@@ -226,7 +226,7 @@ ggmap(map, base_layer = gg) +
   theme_graph()
 ```
 Et voila! There we have it. I'll save it at a higher quality with `ggsave("oyster-map-1.png", width = 9, height = 9, dpi = 300, type = "cairo-png")`
-![](/img/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph/oyster-map-1.png)
+![](/img/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph_images/oyster-map-1.png)
 So there we have it - actually plotting the map was really not that complicated at all, most of the work is just wrangling the data into the right format. With bigger numbers of journeys (I have about 500 recorded...), the maps becomes quite busy - but you can play around with the geoms and other arguments to make it work.
 
 Things I'd be interested in doing with this (but don't know how) would be:

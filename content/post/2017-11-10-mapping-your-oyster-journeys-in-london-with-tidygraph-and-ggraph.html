@@ -12,11 +12,11 @@ tags: []
 <p>If you live in London, or have ever visited it, you have probably used an <a href="https://oyster.tfl.gov.uk/oyster/entry.do">Oyster Card</a>. Introduced in 2003 by Transport for London, your Oyster is a smart payment card which you can use to travel on public transport around London: on buses, tubes, trains, trams and boats, by loading up pay-as-you-go cash onto the card, or pay for a travel card.</p>
 <p>If you register your card with TfL, you can view your journey history (however you can only go back as far as 6 weeks). You can also set up TfL to email you at weekly or monthly intervals with your journeys in csv or pdf format. If you’re someone like me, who loves the idea of collecting data like this, then this is too good an opportunity to pass up.</p>
 <div class="figure">
-<img src="/img/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph/oyster-journey-history-menu.png" />
+<img src="/img/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph_images/oyster-journey-history-menu.png" />
 
 </div>
 <div class="figure">
-<img src="/img/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph/oyster-journey-history-menu2.png" />
+<img src="/img/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph_images/oyster-journey-history-menu2.png" />
 
 </div>
 <p>I recent came across <a href="https://www.jessesadler.com/post/network-analysis-with-r/">this great post by Jesse Sadler</a>, which is a very good introduction to some network analysis concepts in R.</p>
@@ -423,7 +423,7 @@ ggmap(map, base_layer = gg) +
   scale_edge_width(range = c(0.5, 3)) +
   scale_edge_alpha(range = c(0.5,0.75)) +
   theme_graph()</code></pre>
-<p><img src="/post/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph_files/figure-html/unnamed-chunk-11-1.png" width="672" /> Et voila! There we have it. I’ll save it at a higher quality with <code>ggsave(&quot;oyster-map-1.png&quot;, width = 9, height = 9, dpi = 300, type = &quot;cairo-png&quot;)</code> <img src="/img/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph/oyster-map-1.png" /> So there we have it - actually plotting the map was really not that complicated at all, most of the work is just wrangling the data into the right format. With bigger numbers of journeys (I have about 500 recorded…), the maps becomes quite busy - but you can play around with the geoms and other arguments to make it work.</p>
+<p><img src="/post/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph_files/figure-html/unnamed-chunk-11-1.png" width="672" /> Et voila! There we have it. I’ll save it at a higher quality with <code>ggsave(&quot;oyster-map-1.png&quot;, width = 9, height = 9, dpi = 300, type = &quot;cairo-png&quot;)</code> <img src="/img/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph_images/oyster-map-1.png" /> So there we have it - actually plotting the map was really not that complicated at all, most of the work is just wrangling the data into the right format. With bigger numbers of journeys (I have about 500 recorded…), the maps becomes quite busy - but you can play around with the geoms and other arguments to make it work.</p>
 <p>Things I’d be interested in doing with this (but don’t know how) would be:</p>
 <ul>
 <li><p>Rather than a geographically accurate map, could you plot the nodes to match the stations’ locations on the tube map? You’d just need to pass a different set of coordinates, but how would you get them?</p></li>
