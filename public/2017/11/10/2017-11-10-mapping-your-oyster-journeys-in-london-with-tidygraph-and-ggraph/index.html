@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Mapping your Oyster journeys in London with tidygraph and ggraph &middot; Alex Denvir</title>
+        <meta name="description" content="If you live in London, or have ever visited it, you have probably used an Oyster Card. Introduced in 2003 by Transport for London, your Oyster is a smart payment card which you can use to travel on public transport around London: on buses, tubes, trains, trams and boats, by loading up pay-as-you-go cash onto the card, or pay for a travel card.
+If you register your card with TfL, you can view your journey history (however you can only go back as far as 6 weeks).">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.30.2" />
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="Mapping your Oyster journeys in London with tidygraph and ggraph">
+<meta property="og:description" content="If you live in London, or have ever visited it, you have probably used an Oyster Card. Introduced in 2003 by Transport for London, your Oyster is a smart payment card which you can use to travel on public transport around London: on buses, tubes, trains, trams and boats, by loading up pay-as-you-go cash onto the card, or pay for a travel card.
+If you register your card with TfL, you can view your journey history (however you can only go back as far as 6 weeks).">
+<meta property="og:type" content="article">
+<meta property="og:url" content="/2017/11/10/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph/">
+        <link rel="stylesheet" href="/dist/styles.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        
+    </head>
+    <body>
+        
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'XXX', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a title="We&#39;ll Have To Look At The Data" href="/">We&#39;ll Have To Look At The Data</a>
+                            </h1>
+                        
+                        <a class="button-square" href="/index.xml"><i class="fa fa-rss"></i></a>
+                        
+                            <a class="button-square button-social hint--top" data-hint="Twitter" title="Twitter" href="https://twitter.com/eldenvo">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" title="Github" href="https://github.com/eldenvo">
+                                <i class="fa fa-github-alt"></i>
+                            </a>
+                        
+                        
+                        
+                        
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+    <li class="site-nav-item">
+        <a title="Posts" href="/">Posts</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a title="About" href="/page/about/">About</a>
+    </li>
+
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+
+<div class="container">
+    <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Mapping your Oyster journeys in London with tidygraph and ggraph</h1>
+    
+    <p class="post-date">
+        <span>Published <time datetime="2017-11-10" itemprop="datePublished">Fri, Nov 10, 2017</time></span>
+        <span>by</span>
+        <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
+            <span itemprop="name">
+                <a href="https://twitter.com/eldenvo" itemprop="url" rel="author">Alex Denvir</a>
+            </span>
+        </span>
+    </p>
+</header>
+
+        <div class="post-content clearfix" itemprop="articleBody">
+    
+
+    <p>If you live in London, or have ever visited it, you have probably used an <a href="https://oyster.tfl.gov.uk/oyster/entry.do">Oyster Card</a>. Introduced in 2003 by Transport for London, your Oyster is a smart payment card which you can use to travel on public transport around London: on buses, tubes, trains, trams and boats, by loading up pay-as-you-go cash onto the card, or pay for a travel card.</p>
+<p>If you register your card with TfL, you can view your journey history (however you can only go back as far as 6 weeks). You can also set up TfL to email you at weekly or monthly intervals with your journeys in csv or pdf format. If you’re someone like me, who loves the idea of collecting data like this, then this is too good an opportunity to pass up.</p>
+<div class="figure">
+<img src="/img/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph/oyster-journey-history-menu.png" alt="Logging in to your Oyster account, you can view your journey history" />
+<p class="caption">Logging in to your Oyster account, you can view your journey history</p>
+</div>
+<div class="figure">
+<img src="/img/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph/oyster-journey-history-menu2.png" alt="…and you can set up email alerts too" />
+<p class="caption">…and you can set up email alerts too</p>
+</div>
+<p>I recent came across <a href="https://www.jessesadler.com/post/network-analysis-with-r/">this great post by Jesse Sadler</a>, which is a very good introduction to some network analysis concepts in R.</p>
+<p>I have been collecting my own oyster journey history for a while now, but never quite been able to work out what to do with it. The concept of mapping it as a network interested me, but I could never get my ahead around some of the network and graph packages available. Jesse’s post really makes it straightforward, and also shows how to use the <code>tidygraph</code> and <code>ggraph</code> packages to do it in a <em>tidy</em> manner.</p>
+<p>After I read it, I also queried (via Twitter) whether you could layout a ggraph geographically, and the package’s creator <a href="https://twitter.com/thomasp85/status/927498344347422721">Thomas Lin Pedersen very helpfully replied</a> which has prompted me to create this post (my first!)</p>
+<p>So lets jump in with a random sample of 30 journeys I’ve made.</p>
+<pre class="r"><code>library(tidyverse)
+library(stringr)
+library(tidygraph)
+library(ggraph)
+library(ggmap)
+oyster &lt;- read_csv(&quot;https://gist.github.com/eldenvo/92d1a6bae98de429a47b6c229e140124/raw/86057c3156e8059f9e7281996deeb71fbfd79fa0/oyster-raw-sample.csv&quot;)</code></pre>
+<pre class="r"><code>knitr::kable(head(oyster))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Date</th>
+<th align="left">Start.Time</th>
+<th align="left">End.Time</th>
+<th align="left">Journey.Action</th>
+<th align="right">Charge</th>
+<th align="right">Credit</th>
+<th align="right">Balance</th>
+<th align="left">Note</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">28-Nov-2016</td>
+<td align="left">20:51:00</td>
+<td align="left">21:11:00</td>
+<td align="left">Clapham Junction [National Rail] to Denmark Hill [National Rail]</td>
+<td align="right">0</td>
+<td align="right">NA</td>
+<td align="right">4.55</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">17-Nov-2016</td>
+<td align="left">16:59:00</td>
+<td align="left">NA</td>
+<td align="left">Bus journey, route 40</td>
+<td align="right">0</td>
+<td align="right">NA</td>
+<td align="right">10.55</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">25-Jul-2017</td>
+<td align="left">16:58:00</td>
+<td align="left">17:21:00</td>
+<td align="left">Westminster to Denmark Hill [National Rail]</td>
+<td align="right">0</td>
+<td align="right">NA</td>
+<td align="right">17.95</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">26-Nov-2016</td>
+<td align="left">03:34:00</td>
+<td align="left">NA</td>
+<td align="left">Bus journey, route N37</td>
+<td align="right">0</td>
+<td align="right">NA</td>
+<td align="right">4.55</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">12-Sep-2016</td>
+<td align="left">18:30:00</td>
+<td align="left">NA</td>
+<td align="left">Bus journey, route 345</td>
+<td align="right">0</td>
+<td align="right">NA</td>
+<td align="right">16.45</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">09-Jul-2017</td>
+<td align="left">13:49:00</td>
+<td align="left">13:58:00</td>
+<td align="left">Denmark Hill [National Rail] to Clapham High Street</td>
+<td align="right">0</td>
+<td align="right">NA</td>
+<td align="right">2.25</td>
+<td align="left">NA</td>
+</tr>
+</tbody>
+</table>
+<p>Now, in terms of mapping a network, there needs to be a start and a finish to each journey, so you can’t do it for buses, and in general we need to do a bit of work to manipulate the data into something we can use.</p>
+<p>In this next bit we’re categorising the types of journey depending on the text contained in the <code>Journey.Action</code> column. Although they’re not there in my example extract, the history also records other actions such as when you top-up, buy a travelcard, or enter and exit the same station without making a journey. We’re also formatting the date and time.</p>
+<pre class="r"><code>oyster &lt;- oyster %&gt;%
+  mutate(journey.type = case_when(str_detect(Journey.Action, &quot;Bus journey&quot;) ~ &quot;bus&quot;, 
+                                  str_detect(Journey.Action, &quot; to &quot;) ~ &quot;train.tube&quot;,
+                                  str_detect(Journey.Action, &quot;Season ticket&quot;) ~ &quot;top.up&quot;,
+                                  str_detect(Journey.Action, &quot;Topped-up&quot;) ~ &quot;top.up&quot;,
+                                  str_detect(Journey.Action, &quot;Topped up&quot;) ~ &quot;top.up&quot;,
+                                  str_detect(Journey.Action, &quot;Entered and exited&quot;) ~ &quot;other&quot;),
+         Date = as.Date(Date, format = &quot;%d-%b-%Y&quot;),
+         Start.Time = as.POSIXct(paste(Date, Start.Time), format = &quot;%Y-%m-%d %H:%M&quot;),
+         End.Time = as.POSIXct(paste(Date, End.Time), format = &quot;%Y-%m-%d %H:%M&quot;))</code></pre>
+<p>We want to split the train or tube journeys into a “to” and a “from” column. Before we do that however, we also have to remove some of the extra text that is included in the Journey History statements, such as “[National Rail]” or “[London Overground/National Rail]” and some other cases that I’ve found. There are also some things that we need to remove or edit (and this will become clearer why in a bit), such as “DLR” or changing “&amp;” to “and”.</p>
+<p>The way I’ve had to do this using <code>mutate</code>, <code>str_replace_all</code> seems to be very laborious and I feel like there must be a better way (e.g. to create a vector of all the character strings that I want to remove, and pass them to one line of <code>mutate</code> but I haven’t worked out how - please let me know if you have!)</p>
+<p>To split the columns into “from” and “to”, we’re going to use <code>str_split_fixed</code>, which takes a string, in this case the <code>Journey.Action</code> column, takes a pattern to split on - &quot; to &quot; - a number of ‘pieces’ to return, i.e. how many columns we want to split this into (for us, 2) and it will return a matrix with two columns. We want the first column of this to become our “from”, and the second to become “to”.</p>
+<pre class="r"><code>oyster &lt;- oyster %&gt;%
+  mutate(Journey.Action = str_replace_all(Journey.Action, &quot; \\(platforms 9-19\\) \\[National Rail\\]&quot;, &quot;&quot;)) %&gt;%
+  mutate(Journey.Action = str_replace_all(Journey.Action, &quot; \\[National Rail\\]&quot;, &quot;&quot;)) %&gt;%
+  mutate(Journey.Action = str_replace_all(Journey.Action, &quot; \\[London Overground\\]&quot;, &quot;&quot;)) %&gt;%
+  mutate(Journey.Action = str_replace_all(Journey.Action, &quot; \\[London Underground\\]&quot;, &quot;&quot;)) %&gt;%
+  mutate(Journey.Action = str_replace_all(Journey.Action, &quot; \\[London Overground/National Rail\\]&quot;, &quot;&quot;)) %&gt;%
+  mutate(Journey.Action = str_replace_all(Journey.Action, &quot; \\[London Underground / National Rail\\]&quot;, &quot;&quot;)) %&gt;%
+  mutate(Journey.Action = str_replace_all(Journey.Action, &quot; \\(Bakerloo, Circle/District and H&amp;C\\)&quot;, &quot;&quot;)) %&gt;%
+  mutate(Journey.Action = str_replace_all(Journey.Action, &quot; \\(Piccadilly, Victoria lines\\)&quot;, &quot;&quot;)) %&gt;%
+  mutate(Journey.Action = str_replace_all(Journey.Action, &quot; journey\\,&quot;, &quot;&quot;)) %&gt;%
+  mutate(Journey.Action = str_replace_all(Journey.Action, &quot; route&quot;, &quot;&quot;)) %&gt;%
+  mutate(Journey.Action = str_replace_all(Journey.Action, &quot;&#39;&quot;, &quot;&quot;)) %&gt;%
+  mutate(Journey.Action = str_replace_all(Journey.Action, &quot; DLR&quot;, &quot;&quot;)) %&gt;%
+  mutate(Journey.Action = str_replace_all(Journey.Action, &quot;&amp;&quot;, &quot;and&quot;)) %&gt;%
+  mutate(Journey.Action = str_replace_all(Journey.Action, &quot;St Pancras International&quot;, &quot;St Pancras&quot;)) %&gt;%
+  mutate(Journey.Action = str_replace_all(Journey.Action, &quot;Kings Cross&quot;, &quot;Kings Cross St. Pancras&quot;)) %&gt;%
+  mutate(Journey.Action = str_replace_all(Journey.Action, &quot;Sutton Surrey&quot;, &quot;Sutton&quot;)) %&gt;%
+  mutate(from = if_else(journey.type == &quot;train.tube&quot;,str_split_fixed(Journey.Action,&quot; to &quot;,2)[,1],&quot;&quot;),
+         to = if_else(journey.type == &quot;train.tube&quot;,str_split_fixed(Journey.Action,&quot; to &quot;,2)[,2],&quot;&quot;)) %&gt;%
+  select(2,3,10,11,4:9)
+
+knitr::kable(head(oyster,5))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Start.Time</th>
+<th align="left">End.Time</th>
+<th align="left">from</th>
+<th align="left">to</th>
+<th align="left">Journey.Action</th>
+<th align="right">Charge</th>
+<th align="right">Credit</th>
+<th align="right">Balance</th>
+<th align="left">Note</th>
+<th align="left">journey.type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">2016-11-28 20:51:00</td>
+<td align="left">2016-11-28 21:11:00</td>
+<td align="left">Clapham Junction</td>
+<td align="left">Denmark Hill</td>
+<td align="left">Clapham Junction to Denmark Hill</td>
+<td align="right">0</td>
+<td align="right">NA</td>
+<td align="right">4.55</td>
+<td align="left">NA</td>
+<td align="left">train.tube</td>
+</tr>
+<tr class="even">
+<td align="left">2016-11-17 16:59:00</td>
+<td align="left">NA</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Bus 40</td>
+<td align="right">0</td>
+<td align="right">NA</td>
+<td align="right">10.55</td>
+<td align="left">NA</td>
+<td align="left">bus</td>
+</tr>
+<tr class="odd">
+<td align="left">2017-07-25 16:58:00</td>
+<td align="left">2017-07-25 17:21:00</td>
+<td align="left">Westminster</td>
+<td align="left">Denmark Hill</td>
+<td align="left">Westminster to Denmark Hill</td>
+<td align="right">0</td>
+<td align="right">NA</td>
+<td align="right">17.95</td>
+<td align="left">NA</td>
+<td align="left">train.tube</td>
+</tr>
+<tr class="even">
+<td align="left">2016-11-26 03:34:00</td>
+<td align="left">NA</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Bus N37</td>
+<td align="right">0</td>
+<td align="right">NA</td>
+<td align="right">4.55</td>
+<td align="left">NA</td>
+<td align="left">bus</td>
+</tr>
+<tr class="odd">
+<td align="left">2016-09-12 18:30:00</td>
+<td align="left">NA</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Bus 345</td>
+<td align="right">0</td>
+<td align="right">NA</td>
+<td align="right">16.45</td>
+<td align="left">NA</td>
+<td align="left">bus</td>
+</tr>
+</tbody>
+</table>
+<p>Next we can prepare the data for network analysis. First of all, we’re filtering so we end up with only the train or tube journey. And then we’re filtering out the ones that don’t have a start or end point (because I forgot to tap in or out.) We only want the names of the stations - for our purposes from now on, the other info (times, charges) from the Journey History ins’t relevant, although there’s plenty of other things you could do with that data.</p>
+<pre class="r"><code>to.remove &lt;- c(&quot;[No touch-out]&quot;,&quot;[No touch-in]&quot;,&quot;[Unspecified location]&quot;)
+
+for.network &lt;- oyster %&gt;%
+  filter(journey.type == &quot;train.tube&quot;) %&gt;%
+  select(from, to) %&gt;%
+  filter(!from %in% to.remove,
+         !to %in% to.remove)</code></pre>
+<p>(Like a Blue Peter presenter, I’m going to now skip ahead and use a file I prepared earlier that’s a bigger random selection of just tube and train journeys - but the file used from now was arrived at using the steps above. At this stage, I’m also loading a csv with all the tube and train stations in London, with their locations, zone, etc.)</p>
+<pre class="r"><code>for.network &lt;- read_csv(&quot;https://gist.github.com/eldenvo/746d430bfffb90440d9c623db1818fa8/raw/2b749befe5887fff7295bfdccff882fe47aa7288/oyster-network-prepared.csv&quot;)
+
+stations &lt;- read_csv(&quot;https://gist.github.com/eldenvo/91914f027af228036e1c2dc535646a90/raw/c6dd4e33e6a818541a32aada3cda2dbb3ee572b2/stations.csv&quot;)</code></pre>
+<p>Following the steps again from Jesse Sadler’s post, referenced above, we want to then make a list of all the unique stations I went from, and then a list of all the unique stations I went to, and then join them together, to create our table of <em>nodes</em> (i.e stations) for the network, and also assign them an id. Lastly, we’ll join our list of nodes with the info we’ve imported from the <code>stations.csv</code> - and you’ll understand that this is why we had to tidy up the names of the stations from the raw journey history file, so that they match at this point.</p>
+<pre class="r"><code>sources &lt;- for.network %&gt;%
+  distinct(from) %&gt;%
+  rename(label = from)
+
+destinations &lt;- for.network %&gt;%
+  distinct(to) %&gt;%
+  rename(label = to)
+
+nodes &lt;- full_join(sources, destinations, by = &quot;label&quot;)
+
+
+nodes &lt;- nodes %&gt;%
+  mutate(id = row_number())
+
+nodes &lt;- nodes %&gt;%
+  left_join(stations, by = c(&quot;label&quot; = &quot;Station&quot;)) %&gt;%
+  select(id, label, x = Longitude, y = Latitude, zone = Zone, postcode = Postcode)
+
+knitr::kable(head(nodes,5))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">id</th>
+<th align="left">label</th>
+<th align="right">x</th>
+<th align="right">y</th>
+<th align="right">zone</th>
+<th align="left">postcode</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">Peckham Rye</td>
+<td align="right">-0.0699836</td>
+<td align="right">51.46951</td>
+<td align="right">2</td>
+<td align="left">SE15 5DQ</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">East Croydon</td>
+<td align="right">-0.0918635</td>
+<td align="right">51.37572</td>
+<td align="right">5</td>
+<td align="left">CR0 1LF</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="left">Old Street</td>
+<td align="right">-0.0876230</td>
+<td align="right">51.52558</td>
+<td align="right">1</td>
+<td align="left">EC1V 9NR</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="left">West Croydon</td>
+<td align="right">-0.1020343</td>
+<td align="right">51.37855</td>
+<td align="right">5</td>
+<td align="left">CR0 2TA</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="left">Forest Hill</td>
+<td align="right">-0.0533285</td>
+<td align="right">51.43931</td>
+<td align="right">3</td>
+<td align="left">SE23 3HD</td>
+</tr>
+</tbody>
+</table>
+<p>Then we want to create the <em>edges</em>, which is the list of the journeys made. Essentially, this is to identify all the unique journeys made, and how many times they have been made (their <em>weight</em>), using <code>group_by</code> and <code>summarise</code>.</p>
+<pre class="r"><code>edges &lt;- for.network %&gt;%
+  group_by(from, to) %&gt;%
+  summarise(weight = n()) %&gt;%
+  ungroup() %&gt;%
+  arrange(-weight)
+
+head(edges,5)</code></pre>
+<pre><code>## # A tibble: 5 x 3
+##               from               to weight
+##              &lt;chr&gt;            &lt;chr&gt;  &lt;int&gt;
+## 1     West Croydon      Forest Hill      9
+## 2     East Croydon Clapham Junction      2
+## 3      Westminster     Denmark Hill      2
+## 4      Blackfriars      Westminster      1
+## 5 Clapham Junction     Denmark Hill      1</code></pre>
+<p>Finally, join this table with the nodes, in order to just get a list of the source and destination id, and the weight.</p>
+<pre class="r"><code>edges &lt;- edges %&gt;%
+  left_join(nodes[,c(1,2)], by = c(&quot;from&quot; = &quot;label&quot;)) %&gt;% 
+  rename(from.id = id)
+
+edges &lt;- edges %&gt;% 
+  left_join(nodes[,c(1,2)], by = c(&quot;to&quot; = &quot;label&quot;)) %&gt;% 
+  select(from.id, to.id = id, weight)
+
+head(edges,5)</code></pre>
+<pre><code>## # A tibble: 5 x 3
+##   from.id to.id weight
+##     &lt;int&gt; &lt;int&gt;  &lt;int&gt;
+## 1       4     5      9
+## 2       2     6      2
+## 3       8     7      2
+## 4       9     8      1
+## 5       6     7      1</code></pre>
+<p>And now, we’re ready to use <code>tidygraph</code> to turn this into a network! And now we have our edges and nodes neatly sorted out, it’s very simple to create a <code>tbl_graph</code>that can be analysed and used further in <code>ggraph</code>.</p>
+<pre class="r"><code>routes &lt;- tbl_graph(nodes = nodes, edges = edges, directed = TRUE)
+
+print(routes)</code></pre>
+<pre><code>## # A tbl_graph: 22 nodes and 20 edges
+## #
+## # A directed simple graph with 5 components
+## #
+## # Node Data: 22 x 6 (active)
+##      id            label           x        y  zone postcode
+##   &lt;int&gt;            &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;    &lt;chr&gt;
+## 1     1      Peckham Rye -0.06998355 51.46951     2 SE15 5DQ
+## 2     2     East Croydon -0.09186350 51.37572     5  CR0 1LF
+## 3     3       Old Street -0.08762296 51.52558     1 EC1V 9NR
+## 4     4     West Croydon -0.10203429 51.37855     5  CR0 2TA
+## 5     5      Forest Hill -0.05332850 51.43931     3 SE23 3HD
+## 6     6 Clapham Junction -0.17031500 51.46437     2 SW11 2QP
+## # ... with 16 more rows
+## #
+## # Edge Data: 20 x 3
+##    from    to weight
+##   &lt;int&gt; &lt;int&gt;  &lt;int&gt;
+## 1     4     5      9
+## 2     2     6      2
+## 3     8     7      2
+## # ... with 17 more rows</code></pre>
+<p>With that, we have enough data to produce a simple network graph, that is also geographically accurate! Using <code>layout = 'nicely'</code> in <code>ggraph</code> will automatically pull the x and y coordinates of the stations from the edges frame. <code>ggraph</code> follows the <em>grammar</em> of <code>ggplot2</code> and adds <em>geoms</em> to represent the nodes and edges.</p>
+<pre class="r"><code>ggraph(routes, layout = &quot;nicely&quot;) + 
+  geom_node_point() +
+  geom_edge_link() +
+  theme_graph()</code></pre>
+<p><img src="/post/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph_files/figure-html/unnamed-chunk-8-1.png" width="672" /> Well - that’s something!<br />
+We can make that a bit more comprehensible by providing some further details, and there’s plenty more information in the vignettes for ggraph <a href="https://www.data-imaginist.com/2017/ggraph-introduction-edges/">(the stuff below for the edges comes from this page)</a>:</p>
+<ul>
+<li>Rather than showing the nodes as points, I’ll put them as labels with <code>geom_node_label</code>
+<ul>
+<li>and we will give them a colour based on the zone of the station</li>
+</ul></li>
+<li>Rather than <code>geom_edge_link</code> I’ll use <code>geom_edge_fan</code> so that journeys along the same route but in the opposite direction no longer overlap
+<ul>
+<li>we will also add arrows to make the direction clear, and then use the <code>start_cap</code> and <code>end_cap</code> to include a bit of space between the arrows and the labels</li>
+</ul></li>
+<li>The thickness and the transparency of the edges is determined by the weigh (i.e how frequently each journey is made)
+<ul>
+<li>but because there can be quite a large discrepancy between the weights (e.g some journeys could be made every day, others a one off), we want to define a range to the <code>scale_edge_alpha</code> and <code>scale_edge_width</code> so they’re not too drastic</li>
+</ul></li>
+</ul>
+<pre class="r"><code>ggraph(routes, layout = &quot;nicely&quot;) + 
+  geom_node_label(aes(label = label, fill = as.factor(zone)),
+                  size = 1.75, show.legend = F,label.padding = unit(0.15, &quot;lines&quot;)) +
+  geom_edge_fan(aes(start_cap = label_rect(node1.label),
+                    end_cap = label_rect(node2.label),
+                    width = weight, alpha = weight),
+                arrow = arrow(length = unit(2.25, &#39;mm&#39;), angle = 20), show.legend = F) + 
+  scale_edge_width(range = c(0.5, 3)) +
+  scale_edge_alpha(range = c(0.5,0.75)) +
+  theme_graph()</code></pre>
+<p><img src="/post/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph_files/figure-html/unnamed-chunk-9-1.png" width="672" /> That’s much better! There’s some overlapping and lack of clarity, but that could all be tidied up for a final output. We can now make a bit more sense of the network, the stations, which journeys are more frequent.</p>
+<p>For my next trick, I will plot this on a map using <code>ggmap</code> - as mentioned by Thomas Lin Pedersen in the tweet I linked above, and <a href="https://rpubs.com/debasishb/298685">also described in this RPubs post, which is very helpful if not altogether easy to follow.</a>.</p>
+<p>I want to find the limits of my network, and slightly expand them, to ensure everything fits on our eventual map, and set these as a vector anti-clockwise from the left. From these, we’ll make a nice watercolor map of London from <code>get_stamenmap</code>.</p>
+<pre class="r"><code>x.range &lt;- (max(nodes$x) - min(nodes$x))/20
+y.range &lt;- (max(nodes$y) - min(nodes$y))/20
+
+coords &lt;- c(left = min(nodes$x)-x.range, bottom = min(nodes$y)-y.range, right = max(nodes$x)+x.range, top = max(nodes$y)+y.range)
+
+map &lt;- get_stamenmap(coords, zoom = 12, maptype = &quot;watercolor&quot;)
+
+ggmap(map)</code></pre>
+<p><img src="/post/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph_files/figure-html/unnamed-chunk-10-1.png" width="672" /> Pretty, no? Now we have our base map, it’s easy to plot our network on top of it, following <a href="https://rpubs.com/debasishb/298685">the steps indicated in the RPubs post</a>.</p>
+<p>We need to pass our first <code>ggraph()</code> call to the <code>base_layer=</code> argument of <code>ggmap</code>, and then add the rest of our <code>ggraph</code> geoms.</p>
+<pre class="r"><code>gg &lt;- ggraph(routes, layout = &quot;nicely&quot;)
+
+ggmap(map, base_layer = gg) +
+  geom_node_label(aes(label = label, fill = as.factor(zone)),
+                  size = 1.75, show.legend = F,label.padding = unit(0.15, &quot;lines&quot;)) +
+  geom_edge_fan(aes(start_cap = label_rect(node1.label),
+                    end_cap = label_rect(node2.label),
+                    width = weight, alpha = weight),
+                arrow = arrow(length = unit(2.25, &#39;mm&#39;), angle = 20), show.legend = F) + 
+  scale_edge_width(range = c(0.5, 3)) +
+  scale_edge_alpha(range = c(0.5,0.75)) +
+  theme_graph()</code></pre>
+<p><img src="/post/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph_files/figure-html/unnamed-chunk-11-1.png" width="672" /> Et voila! There we have it. I’ll save it at a higher quality with <code>ggsave(&quot;oyster-map-1.png&quot;, width = 9, height = 9, dpi = 300, type = &quot;cairo-png&quot;)</code> <img src="/img/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph/oyster-map-1.png" /> So there we have it - actually plotting the map was really not that complicated at all, most of the work is just wrangling the data into the right format. With bigger numbers of journeys (I have about 500 recorded…), the maps becomes quite busy - but you can play around with the geoms and other arguments to make it work.</p>
+<p>Things I’d be interested in doing with this (but don’t know how) would be:</p>
+<ul>
+<li><p>Rather than a geographically accurate map, could you plot the nodes to match the stations’ locations on the tube map? You’d just need to pass a different set of coordinates, but how would you get them?</p></li>
+<li><p>As I understand, you can facet in <code>ggraph</code>, but I don’t know how you could do that here to show a month-by-month sequence of <em>small multiples</em></p></li>
+<li><p>In addition to that, could you use <code>gganimate</code> to show each journey stacking up on eachother over time?</p></li>
+</ul>
+<p>Any thoughts or ideas on this, or any other tips for me based on this post, just send me a tweet or leave a comment on github. I’m new to this and I’d welcome any feedback!</p>
+
+</div>
+
+        <footer class="post-footer clearfix">
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?text=Mapping%20your%20Oyster%20journeys%20in%20London%20with%20tidygraph%20and%20ggraph&url=%2f2017%2f11%2f10%2f2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+
+        
+        
+    </div>
+</footer>
+
+        
+    </article>
+</div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a title="We&#39;ll Have To Look At The Data" href="/">We&#39;ll Have To Look At The Data</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#">
+                        <i class="fa fa-angle-up"></i>
+                    </a>
+                </div>
+
+                <p class="footer-copyright">
+                    <span>&copy; 2017 / Powered by <a href="https://gohugo.io/">Hugo</a></span>
+                </p>
+                <p class="footer-copyright">
+                    <span><a href="https://github.com/roryg/ghostwriter">Ghostwriter theme</a> By <a href="http://jollygoodthemes.com">JollyGoodThemes</a></span>
+                    <span>/ <a href="https://github.com/jbub/ghostwriter">Ported</a> to Hugo By <a href="https://github.com/jbub">jbub</a></span>
+                </p>
+            </div>
+        </footer>
+
+        <script src="/js/jquery-1.11.3.min.js"></script>
+        <script src="/js/jquery.fitvids.js"></script>
+        
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        
+        
+        <script src="/js/scripts.js"></script>
+    </body>
+</html>
+

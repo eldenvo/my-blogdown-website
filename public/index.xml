@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>We&#39;ll Have To Look At The Data</title>
+    <link>/</link>
+    <description>Recent content on We&#39;ll Have To Look At The Data</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Alex Denvir</copyright>
+    <lastBuildDate>Sun, 12 Nov 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Mapping your Oyster journeys in London with tidygraph and ggraph</title>
+      <link>/2017/11/12/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph/</link>
+      <pubDate>Sun, 12 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/2017/11/12/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph/</guid>
+      <description>If you live in London, or have ever visited it, you have probably used an Oyster Card. Introduced in 2003 by Transport for London, your Oyster is a smart payment card which you can use to travel on public transport around London: on buses, tubes, trains, trams and boats, by loading up pay-as-you-go cash onto the card, or pay for a travel card.
+If you register your card with TfL, you can view your journey history (however you can only go back as far as 6 weeks).</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>/page/about/</link>
+      <pubDate>Thu, 09 Nov 2017 12:13:50 +0000</pubDate>
+      
+      <guid>/page/about/</guid>
+      <description>About I&amp;rsquo;ve made this website to further a hobby, and I&amp;rsquo;ll use it to put up some things that I&amp;rsquo;ve been doing with data, visualisation, etc that I&amp;rsquo;ve found interesting - mostly using the R programming language. It might not be interesting to anyone else at all, but I hope that others might be able to take something from here and further their own understanding.
+I have no background in programming or data science - everything on here, I&amp;rsquo;ve tried to learn myself and by following examples from the many, many excellent blogs and forums out there.</description>
+    </item>
+    
+  </channel>
+</rss>

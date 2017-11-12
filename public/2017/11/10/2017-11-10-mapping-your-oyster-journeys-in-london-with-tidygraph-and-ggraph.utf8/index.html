@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Mapping your Oyster journeys in London with tidygraph and ggraph &middot; Alex Denvir</title>
+        <meta name="description" content="If you live in London, or have ever visited it, you have probably used an Oyster Card. Introduced in 2003 by Transport for London, your Oyster is a smart payment card which you can use to travel on public transport around London: on buses, tubes, trains, trams and boats, by loading up pay-as-you-go cash onto the card, or pay for a travel card.
+If you register your card with TfL, you can view your journey history (however you can only go back as far as 6 weeks).">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.30.2" />
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="Mapping your Oyster journeys in London with tidygraph and ggraph">
+<meta property="og:description" content="If you live in London, or have ever visited it, you have probably used an Oyster Card. Introduced in 2003 by Transport for London, your Oyster is a smart payment card which you can use to travel on public transport around London: on buses, tubes, trains, trams and boats, by loading up pay-as-you-go cash onto the card, or pay for a travel card.
+If you register your card with TfL, you can view your journey history (however you can only go back as far as 6 weeks).">
+<meta property="og:type" content="article">
+<meta property="og:url" content="/2017/11/10/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph.utf8/">
+        <link rel="stylesheet" href="/dist/styles.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        
+    </head>
+    <body>
+        
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'XXX', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a title="We&#39;ll Have To Look At The Data" href="/">We&#39;ll Have To Look At The Data</a>
+                            </h1>
+                        
+                        <a class="button-square" href="/index.xml"><i class="fa fa-rss"></i></a>
+                        
+                            <a class="button-square button-social hint--top" data-hint="Twitter" title="Twitter" href="https://twitter.com/eldenvo">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" title="Github" href="https://github.com/eldenvo">
+                                <i class="fa fa-github-alt"></i>
+                            </a>
+                        
+                        
+                        
+                        
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+    <li class="site-nav-item">
+        <a title="Posts" href="/">Posts</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a title="About" href="/page/about/">About</a>
+    </li>
+
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+
+<div class="container">
+    <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Mapping your Oyster journeys in London with tidygraph and ggraph</h1>
+    
+    <p class="post-date">
+        <span>Published <time datetime="2017-11-10" itemprop="datePublished">Fri, Nov 10, 2017</time></span>
+        <span>by</span>
+        <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
+            <span itemprop="name">
+                <a href="https://twitter.com/eldenvo" itemprop="url" rel="author">Alex Denvir</a>
+            </span>
+        </span>
+    </p>
+</header>
+
+        <div class="post-content clearfix" itemprop="articleBody">
+    
+
+    <p>If you live in London, or have ever visited it, you have probably used an <a href="https://oyster.tfl.gov.uk/oyster/entry.do">Oyster Card</a>. Introduced in 2003 by Transport for London, your Oyster is a smart payment card which you can use to travel on public transport around London: on buses, tubes, trains, trams and boats, by loading up pay-as-you-go cash onto the card, or pay for a travel card.</p>
+
+<p>If you register your card with TfL, you can view your journey history (however you can only go back as far as 6 weeks). You can also set up TfL to email you at weekly or monthly intervals with your journeys in csv or pdf format. If you&rsquo;re someone like me, who loves the idea of collecting data like this, then this is too good an opportunity to pass up.</p>
+
+<p><img src="/img/oyster-journey-history-menu.png" alt="Logging in to your Oyster account, you can view your journey history" /></p>
+
+<p><img src="/img/oyster-journey-history-menu2.png" alt="...and you can set up email alerts too" /></p>
+
+<p>I recent came across <a href="https://www.jessesadler.com/post/network-analysis-with-r/">this great post by Jesse Sadler</a>, which is a very good introduction to some network analysis concepts in R. Now, I have been collecting my own oyster journey history for a while now, but never quite been able to work out what to do with it. The concept of mapping it as a network interested me, but I could never get my ahead around some of the network and graph packages available. Jesse&rsquo;s post really makes it straightforward, and also shows how to use the <code>tidygraph</code> and <code>ggraph</code> packages to do it in a <em>tidy</em> manner.</p>
+
+<p>So lets jump in - I&rsquo;ve selected a random sample of 30 journeys I&rsquo;ve made.</p>
+
+<pre><code class="language-r">library(tidyverse)
+library(stringr)
+library(tidygraph)
+library(ggraph)  
+oyster &lt;- read_csv(&quot;https://gist.github.com/eldenvo/459be5c21bb01251e740dae479b72691/raw/af31a3dee9749103cf0154523a9b3e7e6dfafb4e/oyster-raw-sample.csv&quot;)
+</code></pre>
+
+<pre><code class="language-r">knitr::kable(head(oyster))
+</code></pre>
+
+<p>Date          Start.Time   End.Time   Journey.Action                                         Charge  Credit    Balance  Note</p>
+
+<hr />
+
+<p>09-Jul-2017   13:49:00     13:58:00   Denmark Hill [National Rail] to Clapham High Street       0.0  NA           2.25  NA<br />
+08-Aug-2017   18:46:00     19:02:00   Denmark Hill [National Rail] to Clapham High Street       0.0  NA          36.65  The fare for this journey was capped as you reached the daily charging limit for the zones used
+02-Aug-2017   15:23:00     NA         Bus journey, route 185                                    0.0  NA          17.95  NA<br />
+06-Jul-2017   09:16:00     09:48:00   Denmark Hill [National Rail] to Westminster               0.0  NA           2.25  NA<br />
+12-Sep-2016   18:30:00     NA         Bus journey, route 345                                    0.0  NA          16.45  NA<br />
+29-Mar-2017   19:16:00     19:46:00   Denmark Hill [National Rail] to Farringdon                1.8  NA          -1.35  The fare for this journey was capped as you reached the daily charging limit for the zones used</p>
+
+</div>
+
+        <footer class="post-footer clearfix">
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?text=Mapping%20your%20Oyster%20journeys%20in%20London%20with%20tidygraph%20and%20ggraph&url=%2f2017%2f11%2f10%2f2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph.utf8%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+
+        
+        
+    </div>
+</footer>
+
+        
+    </article>
+</div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a title="We&#39;ll Have To Look At The Data" href="/">We&#39;ll Have To Look At The Data</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#">
+                        <i class="fa fa-angle-up"></i>
+                    </a>
+                </div>
+
+                <p class="footer-copyright">
+                    <span>&copy; 2017 / Powered by <a href="https://gohugo.io/">Hugo</a></span>
+                </p>
+                <p class="footer-copyright">
+                    <span><a href="https://github.com/roryg/ghostwriter">Ghostwriter theme</a> By <a href="http://jollygoodthemes.com">JollyGoodThemes</a></span>
+                    <span>/ <a href="https://github.com/jbub/ghostwriter">Ported</a> to Hugo By <a href="https://github.com/jbub">jbub</a></span>
+                </p>
+            </div>
+        </footer>
+
+        <script src="/js/jquery-1.11.3.min.js"></script>
+        <script src="/js/jquery.fitvids.js"></script>
+        
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        
+        
+        <script src="/js/scripts.js"></script>
+    </body>
+</html>
+
