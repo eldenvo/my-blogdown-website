@@ -7,9 +7,82 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Alex Denvir</copyright>
+    <lastBuildDate>Sun, 12 Nov 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Ggmap</title>
+      <link>/tags/ggmap/</link>
+      <pubDate>Sun, 12 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/ggmap/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ggraph</title>
+      <link>/tags/ggraph/</link>
+      <pubDate>Sun, 12 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/ggraph/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>London</title>
+      <link>/tags/london/</link>
+      <pubDate>Sun, 12 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/london/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Network</title>
+      <link>/tags/network/</link>
+      <pubDate>Sun, 12 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/network/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Oyster</title>
+      <link>/tags/oyster/</link>
+      <pubDate>Sun, 12 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/oyster/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Rstats</title>
+      <link>/tags/rstats/</link>
+      <pubDate>Sun, 12 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/rstats/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tfl</title>
+      <link>/tags/tfl/</link>
+      <pubDate>Sun, 12 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/tfl/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tidygraph</title>
+      <link>/tags/tidygraph/</link>
+      <pubDate>Sun, 12 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/tidygraph/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>

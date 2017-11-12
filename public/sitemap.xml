@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/2017-11-12-mapping-your-oyster-card-journeys-in-london-with-tidygraph-and-ggraph/</loc>
+    <lastmod>2017-11-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph/</loc>
     <lastmod>2017-11-12T00:00:00+00:00</lastmod>
   </url>
@@ -10,6 +15,36 @@
   <url>
     <loc>/page/about/</loc>
     <lastmod>2017-11-09T12:13:50+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/ggmap/</loc>
+    <lastmod>2017-11-12T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/ggraph/</loc>
+    <lastmod>2017-11-12T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/london/</loc>
+    <lastmod>2017-11-12T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/network/</loc>
+    <lastmod>2017-11-12T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/oyster/</loc>
+    <lastmod>2017-11-12T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -25,7 +60,26 @@
   </url>
   
   <url>
+    <loc>/tags/rstats/</loc>
+    <lastmod>2017-11-12T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/</loc>
+    <lastmod>2017-11-12T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/tfl/</loc>
+    <lastmod>2017-11-12T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/tidygraph/</loc>
+    <lastmod>2017-11-12T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
