@@ -19,6 +19,7 @@ googleAnalytics = "XXX"
     description = "Doing things with numbers and maps"
     github = "https://github.com/eldenvo"
     twitter = "https://twitter.com/eldenvo"
+    bio = "blog biograph"
     opengraph = true
     shareTwitter = true
     shareFacebook = false
