@@ -6,15 +6,14 @@ slug: mapping-your-oyster-card-journeys-in-london-with-tidygraph-and-ggraph
 categories: []
 tags:
   - rstats
+  - ggmap
   - network
   - ggraph
-  - tidygraph
-  - ggmap
   - London
   - oyster
   - TfL
+  - tidygraph
 ---
-
 
 If you live in London, or have ever visited it, you have probably used an [Oyster Card](https://oyster.tfl.gov.uk/oyster/entry.do). Introduced in 2003 by Transport for London, your Oyster is a smart payment card which you can use to travel on public transport around London: on buses, tubes, trains, trams and boats, by loading up pay-as-you-go cash onto the card, or pay for a travel card.
 
@@ -247,5 +246,6 @@ Things I'd be interested in doing with this (but don't know how) would be:
 * In addition to that, could you use `gganimate` to show each journey stacking up on eachother over time?
 
 Any thoughts or ideas on this, or any other tips for me based on this post, just send me a tweet or leave a comment on github. I'm new to this and I'd welcome any feedback!
+
 
 
