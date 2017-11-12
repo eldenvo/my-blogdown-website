@@ -30,7 +30,7 @@ googleAnalytics = "XXX"
     highlightJsLocalUrl = ""
 
 [Permalinks]
-    post = "/:year/:month/:day/:filename/"
+    post = "/:filename/"
 
 [[menu.main]]
     name = "Posts"
