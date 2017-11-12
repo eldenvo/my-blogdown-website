@@ -1,7 +1,7 @@
 ---
 title: Mapping your Oyster journeys in London with tidygraph and ggraph
 author: Alex
-date: '2017-11-10'
+date: '2017-11-12'
 slug: mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph
 categories: []
 tags: []
@@ -11,9 +11,9 @@ If you live in London, or have ever visited it, you have probably used an [Oyste
 
 If you register your card with TfL, you can view your journey history (however you can only go back as far as 6 weeks). You can also set up TfL to email you at weekly or monthly intervals with your journeys in csv or pdf format. If you're someone like me, who loves the idea of collecting data like this, then this is too good an opportunity to pass up.
 
-![Logging in to your Oyster account, you can view your journey history](/img/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph/oyster-journey-history-menu.png)
+![](/img/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph/oyster-journey-history-menu.png)
 
-![...and you can set up email alerts too](/img/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph/oyster-journey-history-menu2.png)
+![](/img/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph/oyster-journey-history-menu2.png)
 
 I recent came across [this great post by Jesse Sadler](https://www.jessesadler.com/post/network-analysis-with-r/), which is a very good introduction to some network analysis concepts in R. 
 

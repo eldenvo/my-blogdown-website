@@ -1,7 +1,7 @@
 ---
 title: Mapping your Oyster journeys in London with tidygraph and ggraph
 author: Alex
-date: '2017-11-10'
+date: '2017-11-12'
 slug: mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph
 categories: []
 tags: []
@@ -12,12 +12,12 @@ tags: []
 <p>If you live in London, or have ever visited it, you have probably used an <a href="https://oyster.tfl.gov.uk/oyster/entry.do">Oyster Card</a>. Introduced in 2003 by Transport for London, your Oyster is a smart payment card which you can use to travel on public transport around London: on buses, tubes, trains, trams and boats, by loading up pay-as-you-go cash onto the card, or pay for a travel card.</p>
 <p>If you register your card with TfL, you can view your journey history (however you can only go back as far as 6 weeks). You can also set up TfL to email you at weekly or monthly intervals with your journeys in csv or pdf format. If you’re someone like me, who loves the idea of collecting data like this, then this is too good an opportunity to pass up.</p>
 <div class="figure">
-<img src="/img/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph/oyster-journey-history-menu.png" alt="Logging in to your Oyster account, you can view your journey history" />
-<p class="caption">Logging in to your Oyster account, you can view your journey history</p>
+<img src="/img/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph/oyster-journey-history-menu.png" />
+
 </div>
 <div class="figure">
-<img src="/img/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph/oyster-journey-history-menu2.png" alt="…and you can set up email alerts too" />
-<p class="caption">…and you can set up email alerts too</p>
+<img src="/img/2017-11-10-mapping-your-oyster-journeys-in-london-with-tidygraph-and-ggraph/oyster-journey-history-menu2.png" />
+
 </div>
 <p>I recent came across <a href="https://www.jessesadler.com/post/network-analysis-with-r/">this great post by Jesse Sadler</a>, which is a very good introduction to some network analysis concepts in R.</p>
 <p>I have been collecting my own oyster journey history for a while now, but never quite been able to work out what to do with it. The concept of mapping it as a network interested me, but I could never get my ahead around some of the network and graph packages available. Jesse’s post really makes it straightforward, and also shows how to use the <code>tidygraph</code> and <code>ggraph</code> packages to do it in a <em>tidy</em> manner.</p>
