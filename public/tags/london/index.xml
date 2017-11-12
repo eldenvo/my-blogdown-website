@@ -22,15 +22,5 @@
 If you register your card with TfL, you can view your journey history (however you can only go back as far as 6 weeks).</description>
     </item>
     
-    <item>
-      <title>Mapping your Oyster card journeys in London with tidygraph and ggraph</title>
-      <link>/2017-11-12-mapping-your-oyster-card-journeys-in-london-with-tidygraph-and-ggraph/</link>
-      <pubDate>Sun, 12 Nov 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/2017-11-12-mapping-your-oyster-card-journeys-in-london-with-tidygraph-and-ggraph/</guid>
-      <description>If you live in London, or have ever visited it, you have probably used an Oyster Card. Introduced in 2003 by Transport for London, your Oyster is a smart payment card which you can use to travel on public transport around London: on buses, tubes, trains, trams and boats, by loading up pay-as-you-go cash onto the card, or pay for a travel card.
-If you register your card with TfL, you can view your journey history (however you can only go back as far as 6 weeks).</description>
-    </item>
-    
   </channel>
 </rss>
