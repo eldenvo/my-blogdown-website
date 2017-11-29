@@ -1,0 +1,15 @@
+---
+title: A Not That Great Attempt at Simulating the World Cup Draw
+author: Alex
+date: '2017-11-29'
+slug: a-not-that-great-attempt-at-simulating-the-world-cup-draw
+categories:
+  - football
+  - simulations
+tags:
+  - rstats
+  - ggplot
+  - tidyverse
+  - football
+---
+
