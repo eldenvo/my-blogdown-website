@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Alex Denvir</copyright>
-    <lastBuildDate>Sun, 12 Nov 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 29 Nov 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>A Not That Great Attempt at Simulating the World Cup Draw</title>
+      <link>/2017-11-29-a-not-that-great-attempt-at-simulating-the-world-cup-draw/</link>
+      <pubDate>Wed, 29 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/2017-11-29-a-not-that-great-attempt-at-simulating-the-world-cup-draw/</guid>
+      <description>On Friday, famous crisp addict Gary Lineker will host the FIFA World Cup 2018 draw in at the Kremlin, to determine the groups for next summer’s men’s football World Cup, in Russia. This is quite an exciting event, with lots of pomp and circumstance. (It goes on too long, but the drama of the draw itself is good). It may also bring some hubris: after the 2010 draw, where England were grouped with the USA, Slovenia, and Algeria, we were overjoyed that such an ostensibly easy group would allow easy progress.</description>
+    </item>
     
     <item>
       <title>Mapping your Oyster card journeys in London with tidygraph and ggraph</title>

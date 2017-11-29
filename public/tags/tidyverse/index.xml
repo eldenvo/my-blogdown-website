@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on We&#39;ll Have To Look At The Data</title>
-    <link>/post/</link>
-    <description>Recent content in Posts on We&#39;ll Have To Look At The Data</description>
+    <title>Tidyverse on We&#39;ll Have To Look At The Data</title>
+    <link>/tags/tidyverse/</link>
+    <description>Recent content in Tidyverse on We&#39;ll Have To Look At The Data</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Alex Denvir</copyright>
     <lastBuildDate>Wed, 29 Nov 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/tidyverse/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -19,16 +19,6 @@
       
       <guid>/2017-11-29-a-not-that-great-attempt-at-simulating-the-world-cup-draw/</guid>
       <description>On Friday, famous crisp addict Gary Lineker will host the FIFA World Cup 2018 draw in at the Kremlin, to determine the groups for next summer’s men’s football World Cup, in Russia. This is quite an exciting event, with lots of pomp and circumstance. (It goes on too long, but the drama of the draw itself is good). It may also bring some hubris: after the 2010 draw, where England were grouped with the USA, Slovenia, and Algeria, we were overjoyed that such an ostensibly easy group would allow easy progress.</description>
-    </item>
-    
-    <item>
-      <title>Mapping your Oyster card journeys in London with tidygraph and ggraph</title>
-      <link>/2017-11-12-mapping-your-oyster-card-journeys-in-london-with-tidygraph-and-ggraph/</link>
-      <pubDate>Sun, 12 Nov 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/2017-11-12-mapping-your-oyster-card-journeys-in-london-with-tidygraph-and-ggraph/</guid>
-      <description>If you live in London, or have ever visited it, you have probably used an Oyster Card. Introduced in 2003 by Transport for London, your Oyster is a smart payment card which you can use to travel on public transport around London: on buses, tubes, trains, trams and boats, by loading up pay-as-you-go cash onto the card, or pay for a travel card.
-If you register your card with TfL, you can view your journey history (however you can only go back as far as 6 weeks).</description>
     </item>
     
   </channel>

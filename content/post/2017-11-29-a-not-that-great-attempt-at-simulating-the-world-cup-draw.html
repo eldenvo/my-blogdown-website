@@ -1,0 +1,36 @@
+---
+title: A Not That Great Attempt at Simulating the World Cup Draw
+author: Alex
+date: '2017-11-29'
+slug: a-not-that-great-attempt-at-simulating-the-world-cup-draw
+categories:
+  - football
+  - simulations
+tags:
+  - rstats
+  - ggplot
+  - tidyverse
+  - football
+---
+
+
+
+<p>On Friday, famous crisp addict Gary Lineker will host the <a href="http://www.fifa.com/worldcup/news/y=2017/m=11/news=the-final-draw-how-it-works-2921565.html">FIFA World Cup 2018 draw</a> in at the Kremlin, to determine the groups for next summer’s men’s football World Cup, in Russia. This is quite an exciting event, with lots of pomp and circumstance. (It goes on too long, but the drama of the draw itself is good). It may also bring some hubris: after the 2010 draw, where England were grouped with the USA, Slovenia, and Algeria, we were overjoyed that such an ostensibly easy group would allow <em>easy</em> progress. <img src="/img/2017-11-29-a-not-that-great-attempt-at-simulating-the-world-cup-draw/2010-easy.jpg" /> Alas, three dire performances later and the England captain was shouting at the England fans through the TV cameras for booing their terrible performance.</p>
+<p>If you’re not familiar with how it works:</p>
+<ul>
+<li><p>31 countries from across the globe have qualified, and have been put into four pots of 8 teams, along with Russia who qualify automatically.</p></li>
+<li><p>Russia will be in pot 1, followed by the next seven best ranked teams in the most recent FIFA world rankings</p></li>
+<li><p>Pots 2 through 4 are filled the same way, by world rankings. So pot 4 contains the eight lowest ranked nations in the competition (apart from Russia)</p></li>
+</ul>
+<div class="figure">
+<img src="/img/2017-11-29-a-not-that-great-attempt-at-simulating-the-world-cup-draw/fifa-pots.png" />
+
+</div>
+<ul>
+<li><p>Each nation is inside a ball in each pot, and the balls are drawn at randomw</p></li>
+<li><p>First pot 1 will be emptied first into groups A to H, drawn randomly, except that Russia will be automatically given pot A (as their matches have already been scheduled)</p></li>
+<li><p>Then pots 2 to 4 will be done in turn, also at random</p></li>
+<li><p><strong>But</strong>, you cannot have more than one team from the same Confederation (i.e. continental group of football nations, essentially: Europe, Asia, Africa, South America, North &amp; Central America) in the same group, except for European teams (because there are more) of which there cannot be more than 2.</p></li>
+</ul>
+<p><strong>So</strong> it is a complicated affair, and I thought it might be interesting to simulate in R to see which combinations of teams are most frequent, given the constraints of the draw. <a href="https://www.theguardian.com/football/2017/nov/16/world-cup-finals-create-your-own-draw-for-russia-2018-interactive">Some newspapers and other websites have already got similar tools that you can try out yourself.</a></p>
+<p>Sadly, I found this a much more difficult task than expected. This post comes with several caveats that are explained further below</p>
