@@ -33,4 +33,17 @@ tags:
 <li><p><strong>But</strong>, you cannot have more than one team from the same Confederation (i.e. continental group of football nations, essentially: Europe, Asia, Africa, South America, North &amp; Central America) in the same group, except for European teams (because there are more) of which there cannot be more than 2.</p></li>
 </ul>
 <p><strong>So</strong> it is a complicated affair, and I thought it might be interesting to simulate in R to see which combinations of teams are most frequent, given the constraints of the draw. <a href="https://www.theguardian.com/football/2017/nov/16/world-cup-finals-create-your-own-draw-for-russia-2018-interactive">Some newspapers and other websites have already got similar tools that you can try out yourself.</a></p>
-<p>Sadly, I found this a much more difficult task than expected. This post comes with several caveats that are explained further below</p>
+<p>Sadly, I found this a much more difficult task than expected. This post comes with several caveats that are explained further below as to the flaws in my methodology, and some things to bear in mind. I don’t think this is completely useless, I just don’t think it fully represents what will happen during the draw on Friday.</p>
+<div id="caveats" class="section level3">
+<h3>Caveats</h3>
+<ul>
+<li><p>It’s not exactly clear to me the exact method for the draw. Whether groups will be filled in order A to H every time, or whether they will draw out a team from a pot, and then a group letter from another.</p></li>
+<li><p>Then, what is the protocol for if a team is drawn to a group that it cannot go into, due to the rules: will they return the team to the pot and draw again, or do they place the team drawn into the next available group that works?</p></li>
+<li><p>What happens in the event that you get to a point in the draw where the team drawn cannot go into <em>any</em> of the available groups. It would be possible, for instance, for all the European teams from pot 2 to be drawn ahead of the South American teams, and all into the groups containing European pot 1 teams - and you could be left with Colombia and Peru trying to fit into groups that already contain Brazil or Argentina. I realise that FIFA will sort that out, but <em>how</em> is the question, and I don’t know how to encorporate that into my simulation.</p></li>
+</ul>
+</div>
+<div id="how-i-did-it" class="section level3">
+<h3>How I Did It</h3>
+<p>I tried out a few things, and they didn’t really work - I’ve not done something like this before, and was really lost as to how to approach it. I tried some things with <code>for</code> loops, but it didn’t work. Then I came across <a href="https://www.reddit.com/r/rstats/comments/7dumr7/simulating_fifa_world_cup_draws_how_to_improve/dq3nzis/">this reddit post which was great! It worked!</a></p>
+<p>The code is fairly comprehensible, and it works well, and quickly, without any loops or lots of <code>if else</code> conditions. In fact, the function there is better than anything I managed to make myself, and I’d recommend it. <a href="https://www.reddit.com/r/soccer/comments/7fxslg/oc_fifa_world_cup_draw_probabilities/">Another reddit user has posted the results of their simulation</a>, but has not published the method, and I couldn’t say whether they’ve used R to do it or not - but their outcomes look accurate and better than mine - so there is a way!</p>
+</div>
