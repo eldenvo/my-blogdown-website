@@ -51,4 +51,244 @@ Sadly, I found this a much more difficult task than expected. This post comes wi
 
 I tried out a few things, and they didn't really work - I've not done something like this before, and was really lost as to how to approach it. I tried some things with `for` loops, but it didn't work. Then I came across [this reddit post which was great! It worked!](https://www.reddit.com/r/rstats/comments/7dumr7/simulating_fifa_world_cup_draws_how_to_improve/dq3nzis/)
 
-The code is fairly comprehensible, and it works well, and quickly, without any loops or lots of `if else` conditions. In fact, the function there is better than anything I managed to make myself, and I'd recommend it. [Another reddit user has posted the results of their simulation](https://www.reddit.com/r/soccer/comments/7fxslg/oc_fifa_world_cup_draw_probabilities/), but has not published the method, and I couldn't say whether they've used R to do it or not - but their outcomes look accurate and better than mine - so there is a way!
+The code is fairly comprehensible, and it works well, and quickly, without any loops or lots of `if else` conditions. In fact, the function there is better than anything I managed to make myself, and I'd recommend it. [Another reddit user has posted the results of their simulation](https://www.reddit.com/r/soccer/comments/7fxslg/oc_fifa_world_cup_draw_probabilities/), but has not published the method, and I couldn't say whether they've used R to do it or not - but their outcomes look accurate and better than mine!
+
+I tried to copy the first method, and improve on it and recode some of it in a way that was more understandable to me. The process followed is to put Russia into group A, then randomly allocate the rest of the pot 1 teams to the groups. Then go through pot by pot and draw each set of teams in a confederation, depending on how restrained they would be. So that means for the 2nd round of the draw, taking the South American teams, determining which groups they are able to go to, and randomly assigning them to one of those - and then putting the European teams and Mexico into the rest of the groups. Then repeat that process through the draw until the end. 
+
+```{r setup, echo = T, warning = F, message  = F}
+library(tidyverse)
+
+seeds <- read_csv("https://gist.github.com/eldenvo/fb0d27fcb5d322b538d06cdc06b1c559/raw/3eaaab91c29d2dde6c9a28377b325844b834df13/seeds.csv")
+```
+
+```{r head df, echo=TRUE, warning = FALSE}
+print(seeds)
+```
+
+This is the function to do the draw:
+```{r sim function, echo=TRUE, warning = FALSE}
+sim_draw <- function(x) {
+  
+  ## Round 1 of draw
+    r1.a <- tibble(group_names = "A", r1 = "Russia")
+
+    r1.b <- tibble(group_names = sample(LETTERS[2:8], 7),
+                  r1 = x %>% 
+                    filter(pot == 1, nation != "Russia") %>% 
+                    pull(nation))
+    
+  r1 <- bind_rows(r1.a, r1.b)
+
+    confeds <- left_join(r1, seeds %>% 
+                           filter(nation %in% r1$r1) %>% 
+                           select(nation, confed), by = c("r1" = "nation")) %>%
+              select(-r1) %>%
+              rename(r1 = confed)
+    
+    ## Round 2
+   
+    r2_sa <- x %>% 
+      filter(pot == 2, confed == "South America") %>% 
+      pull(nation)
+    
+    r2_sa_ok <- confeds %>% 
+      filter(r1 != "South America") %>% 
+      pull(group_names)
+    
+    r2.sa <- tibble(group_names = sample(r2_sa_ok, length(r2_sa)),
+                    r2 = r2_sa)
+    
+    
+    r2_oth_teams <- x %>% 
+      filter(pot == 2, confed != "South America") %>% 
+      pull(nation)
+    
+    r2.other <- tibble(group_names = setdiff(LETTERS[1:8],r2.sa$group_names),
+                       r2 = sample(r2_oth_teams))
+    
+    r2 <- bind_rows(r2.sa, r2.other)
+    
+    r2.confeds <- left_join(r2, seeds %>% 
+                              filter(nation %in% r2$r2) %>% 
+                              select(nation, confed), by = c("r2" = "nation")) %>%
+                    select(-r2) %>% 
+                    rename(r2 = confed)
+    
+    draw <- left_join(r1, r2, by = "group_names")
+    
+    draw.confeds <- left_join(confeds, r2.confeds, by = "group_names")
+
+    ## Round 3
+    r3_eu_teams <- x %>% 
+      filter(pot == 3, confed == "Europe") %>% 
+      pull(nation)
+    
+    r3_eu_groups <- draw.confeds %>% 
+      filter(r1 != "Europe" | r2 != "Europe") %>% 
+      pull(group_names)
+    
+    r3.eu <- tibble(group_names = sample(r3_eu_groups, length(r3_eu_teams)),
+                    r3 = r3_eu_teams)
+    
+  r3_na_teams <- x %>% 
+    filter(pot == 3, confed == "North America") %>% 
+    pull(nation)
+  
+  r3_na_groups <- draw.confeds %>% 
+    filter(r1 != "North America", r2 != "North America") %>% 
+    pull(group_names)
+  
+  r3_na_groups <- setdiff(r3_na_groups, r3.eu$group_names)
+  
+  r3.na <- tibble(group_names = sample(r3_na_groups, length(r3_na_teams)),
+                  r3 = r3_na_teams)
+ 
+  r3_oth_teams <- x %>% 
+    filter(pot == 3, confed != "Europe", confed != "North America") %>% 
+    pull(nation)
+  
+  r3_oth_groups <- setdiff(LETTERS[1:8], c(r3.eu$group_names, r3.na$group_names))
+  
+  r3.other <- tibble(group_names = sample(r3_oth_groups, length(r3_oth_teams)),
+                     r3 = r3_oth_teams)
+  
+  r3 <- bind_rows(r3.eu, r3.na, r3.other)
+  
+  r3.confeds <-  left_join(r3, seeds %>% 
+                             filter(nation %in% r3$r3) %>% 
+                             select(nation, confed), by = c("r3" = "nation")) %>%
+                  select(-r3) %>%
+                  rename(r3 = confed)
+  
+  draw <- left_join(draw, r3, by = "group_names")
+  
+  draw.confeds <- left_join(draw.confeds, r3.confeds, by = "group_names")
+ 
+  ## Round 4
+    r4_eu_teams <- x %>% filter(pot == 4, confed == "Europe") %>% pull(nation)
+    r4_eu_groups <- draw.confeds %>%
+      filter(r1 != "Europe" | r2 != "Europe") %>%
+      filter(r1 != "Europe" | r3 != "Europe") %>%
+      filter(r2 != "Europe" | r3 != "Europe") %>%
+      pull(group_names)
+    
+    r4.eu <- tibble(group_names = sample(r4_eu_groups, length(r4_eu_teams)),
+                    r4 = r4_eu_teams)
+    
+    r4_afr_teams <- x %>% 
+      filter(pot == 4, confed == "Africa") %>% 
+      pull(nation)
+    
+    r4_afr_groups <- draw.confeds %>% 
+      filter(r3 != "Africa") %>% 
+      pull(group_names)
+    
+    r4_afr_groups <- setdiff(r4_afr_groups, r4.eu$group_names)
+    
+    r4.afr <- tibble(group_names = sample(r4_afr_groups, length(r4_afr_teams)),
+                     r4 = r4_afr_teams)
+    
+    r4.sofar <- bind_rows(r4.eu, r4.afr)
+
+    # A special case is if the group with the Asian team from pot 3 still has a spot open, The CONCACAF team must get this spot, otherwise there will not be enough spaces for the remaining 4 Asian teams
+
+    r3_asian_group <- draw.confeds %>% 
+      filter(r3 == "Asia") %>% 
+      pull(group_names)
+    
+    r4_remaining_groups <- setdiff(LETTERS[1:8], r4.sofar$group_names)
+    
+    r4_na_teams <- x %>% 
+      filter(pot == 4, confed == "North America") %>% 
+      pull(nation)
+    
+    r4_na_groups <- draw.confeds %>% 
+      filter(r2 != "North America", r3 != "North America") %>% 
+      pull(group_names)
+    
+    r4_na_groups <- setdiff(r4_na_groups, r4.sofar$group_names)
+    
+    test <- case_when(r3_asian_group %in% r4_remaining_groups ~ T,
+              !r3_asian_group %in% r4_remaining_groups ~ F)
+    
+    r4_na_groups_tested <- case_when(test ~ r3_asian_group, !test ~ r4_na_groups)
+
+    r4.na <- tibble(group_names = sample(r4_na_groups_tested, 1),
+                    r4 = r4_na_teams)
+    
+
+    r4_asia_teams <- x %>% 
+      filter(pot == 4, confed == "Asia") %>% 
+      pull(nation)
+    
+    r4_asia_groups <- draw.confeds %>% 
+      filter(r3 != "Asia") %>% 
+      pull(group_names)
+    
+    r4_asia_groups <- setdiff(r4_asia_groups, c(r4.eu$group_names, r4.afr$group_names, r4.na$group_names))
+    
+    r4.asia <- tibble(group_names = sample(r4_asia_groups, 4),
+                      r4 = r4_asia_teams)
+    
+    r4 <- bind_rows(r4.eu, r4.na, r4.afr, r4.asia)
+    
+    r4.confeds <-  left_join(r4, seeds %>% 
+                               filter(nation %in% r4$r4) %>% 
+                               select(nation, confed), by = c("r4" = "nation")) %>%
+                    select(-r4) %>%
+                    rename(r4 = confed)
+    
+    draw <- left_join(draw, r4, by = "group_names")
+    
+    draw.confeds <- left_join(draw.confeds, r4.confeds,by = "group_names")
+    
+    groups <- gather(draw, round, nation, -group_names) %>%
+      mutate(seed = rep(1:4, each = 8)) %>%
+      select(nation, seed, group = group_names) %>%
+      arrange(seed, group)
+    
+    
+    return(groups)
+}
+
+sim_draw(seeds)
+```
+
+Phew! If you want to run the simulation lots of times, you can do `replicate(10000, sim_draw(seeds))` You can get [my file with 1,000,000 simulations here.](https://github.com/eldenvo/world-cup-2018-draw/blob/master/data/sims.rds)
+
+### Findings and flaws
+Cutting to the chase, here are the results:
+
+![](img/2017-11-29-a-not-that-great-attempt-at-simulating-the-world-cup-draw/most likely opponents grid.png)
+
+Interesting!
+
+Clearly, one value stands out there, and that is the Iran-Panama match up. If you compare mine to the [earlier person 
+from reddit's findings](https://i.imgur.com/CwWYdFV.png) then you'll see we disagree, and I think they are right. The flaw in my simulation comes in pot 4: the constraints of the draw can be such that there are lots of ways you could correctly draw the teams up to that point that make it difficult to find space for the remaining teams. In my sim, I draw Serbia, then the two African teams, then Panama, then the 4 remaining Asian teams.
+
+When I draw Panama, the simulation says that if the group containing the only Asian team not in pot 4 (Iran), has not yet been given a pot 4 team, then Panama must go into that - because if it didn't, there would only be three groups remaining with no Asian confederation teams, and four Asian teams to draw. I imagine that the proper draw will do *something* like this, but I believe the way I'm doing it means it quite drastically over-estimates the frequency of Iran and Panama being in the same group. Also, my method has the sad side effect of creating a small chance (4%) of Panama  and Mexico being in the same group - which cannot happen in reality.
+
+**The order of the draw matters**. My simulation, and I believe the other one I've shared, don't simulate the draw in order, picking one team at a time to go into groups A through H in order - which I think is the most likely way the real draw will happen. The impact of *not* doing this is kinda hard to tell from the results of the simulation, and trying to work out mathematically what the probabilities would actually be, is really complicated, and way above my pay grade.
+
+However, one place where you can see the effects, is with Russia and the pot 2 teams. We know that Russia will always be group A. Because Russia is a UEFA team, any of the nations in pot 2 could be paired with Russia without breaking the rules. If the draw is done in order, that means that the first team drawn out of pot 2 will always go in Russia's group; there is no reason it could not. That should mean therefore that every team in pot 2 has a 12.5% chance of being in Russia's group, rather than a 10% chance as these simulations show. That would then have knock on effects on the rest of the draw (I think).
+
+Nevertheless, a lot of my probabilities match those found by others, and it's still a helpful exercise. In terms of thinking who England's likely opponents are:
+
+![](img/2017-11-29-a-not-that-great-attempt-at-simulating-the-world-cup-draw/most frequent england opponents by pot.png)
+
+![](/img/2017-11-29-a-not-that-great-attempt-at-simulating-the-world-cup-draw/most frequent england groups.png)
+
+![](/img/2017-11-29-a-not-that-great-attempt-at-simulating-the-world-cup-draw/most frequent england groups excl Iran Panama.png)
+
+There showing both with and without the Iran-Panama combination which potentially skews results.
+
+I recommend having a play around with the data, as there are some interesting results. For example, there's only 8 different ways Serbia could end up without another European opponent - each with about a 1% chance. As the only European team in pot 4, the probabilities of Serbia's opponents are quite severe one way or another.
+![](/img/2017-11-29-a-not-that-great-attempt-at-simulating-the-world-cup-draw/most groups containing Serbia.png)
+
+![](/img/2017-11-29-a-not-that-great-attempt-at-simulating-the-world-cup-draw/Serbian groups with no EU.png)
+
+I would please love to know any advances on the simulation model, both in terms of how to make it run faster (mine is slow), and how to more accurately represent reality (but you haven't got long - in little more than 36 hours, these probabilities will be moot, and we'll know whether or not England have it EASY again or get a group of death - Argentina, Iceland and Australia would be a lovely little match up).
+
+
+
+
