@@ -261,6 +261,7 @@ Cutting to the chase, here are the results:
 
 ![](img/2017-11-29-a-not-that-great-attempt-at-simulating-the-world-cup-draw/most-likely-opponents-grid.png)
 
+
 Interesting!
 
 Clearly, one value stands out there, and that is the Iran-Panama match up. If you compare mine to the [earlier person 
