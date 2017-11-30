@@ -259,7 +259,7 @@ Phew! If you want to run the simulation lots of times, you can do `replicate(100
 ### Findings and flaws
 Cutting to the chase, here are the results:
 
-![](img/2017-11-29-a-not-that-great-attempt-at-simulating-the-world-cup-draw/most likely opponents grid.png)
+![](img/2017-11-29-a-not-that-great-attempt-at-simulating-the-world-cup-draw/most-likely-opponents-grid.png)
 
 Interesting!
 
@@ -274,7 +274,7 @@ However, one place where you can see the effects, is with Russia and the pot 2 t
 
 Nevertheless, a lot of my probabilities match those found by others, and it's still a helpful exercise. In terms of thinking who England's likely opponents are:
 
-![](img/2017-11-29-a-not-that-great-attempt-at-simulating-the-world-cup-draw/most frequent england opponents by pot.png)
+![](img/2017-11-29-a-not-that-great-attempt-at-simulating-the-world-cup-draw/most-frequent-england-opponents-by-pot.png)
 
 ![](/img/2017-11-29-a-not-that-great-attempt-at-simulating-the-world-cup-draw/most frequent england groups.png)
 
@@ -283,6 +283,7 @@ Nevertheless, a lot of my probabilities match those found by others, and it's st
 There showing both with and without the Iran-Panama combination which potentially skews results.
 
 I recommend having a play around with the data, as there are some interesting results. For example, there's only 8 different ways Serbia could end up without another European opponent - each with about a 1% chance. As the only European team in pot 4, the probabilities of Serbia's opponents are quite severe one way or another.
+
 ![](/img/2017-11-29-a-not-that-great-attempt-at-simulating-the-world-cup-draw/most groups containing Serbia.png)
 
 ![](/img/2017-11-29-a-not-that-great-attempt-at-simulating-the-world-cup-draw/Serbian groups with no EU.png)

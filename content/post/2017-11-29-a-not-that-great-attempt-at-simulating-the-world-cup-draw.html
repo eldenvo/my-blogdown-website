@@ -256,13 +256,13 @@ sim_draw(seeds)</code></pre>
 ##        &lt;chr&gt; &lt;int&gt; &lt;chr&gt;
 ##  1    Russia     1     A
 ##  2    Brazil     1     B
-##  3   Germany     1     C
-##  4    Poland     1     D
-##  5  Portugal     1     E
-##  6   Belgium     1     F
+##  3   Belgium     1     C
+##  4  Portugal     1     D
+##  5   Germany     1     E
+##  6    Poland     1     F
 ##  7    France     1     G
 ##  8 Argentina     1     H
-##  9  Colombia     2     A
+##  9      Peru     2     A
 ## 10   England     2     B
 ## # ... with 22 more rows</code></pre>
 <p>Phew! If you want to run the simulation lots of times, you can do <code>replicate(10000, sim_draw(seeds))</code> You can get <a href="https://github.com/eldenvo/world-cup-2018-draw/blob/master/data/sims.rds">my file with 1,000,000 simulations here.</a></p>
@@ -271,7 +271,7 @@ sim_draw(seeds)</code></pre>
 <h3>Findings and flaws</h3>
 <p>Cutting to the chase, here are the results:</p>
 <div class="figure">
-<img src="img/2017-11-29-a-not-that-great-attempt-at-simulating-the-world-cup-draw/most%20likely%20opponents%20grid.png" />
+<img src="img/2017-11-29-a-not-that-great-attempt-at-simulating-the-world-cup-draw/most-likely-opponents-grid.png" />
 
 </div>
 <p>Interesting!</p>
@@ -281,7 +281,7 @@ sim_draw(seeds)</code></pre>
 <p>However, one place where you can see the effects, is with Russia and the pot 2 teams. We know that Russia will always be group A. Because Russia is a UEFA team, any of the nations in pot 2 could be paired with Russia without breaking the rules. If the draw is done in order, that means that the first team drawn out of pot 2 will always go in Russia’s group; there is no reason it could not. That should mean therefore that every team in pot 2 has a 12.5% chance of being in Russia’s group, rather than a 10% chance as these simulations show. That would then have knock on effects on the rest of the draw (I think).</p>
 <p>Nevertheless, a lot of my probabilities match those found by others, and it’s still a helpful exercise. In terms of thinking who England’s likely opponents are:</p>
 <div class="figure">
-<img src="img/2017-11-29-a-not-that-great-attempt-at-simulating-the-world-cup-draw/most%20frequent%20england%20opponents%20by%20pot.png" />
+<img src="img/2017-11-29-a-not-that-great-attempt-at-simulating-the-world-cup-draw/most-frequent-england-opponents-by-pot.png" />
 
 </div>
 <div class="figure">
@@ -293,7 +293,11 @@ sim_draw(seeds)</code></pre>
 
 </div>
 <p>There showing both with and without the Iran-Panama combination which potentially skews results.</p>
-<p>I recommend having a play around with the data, as there are some interesting results. For example, there’s only 8 different ways Serbia could end up without another European opponent - each with about a 1% chance. As the only European team in pot 4, the probabilities of Serbia’s opponents are quite severe one way or another. <img src="/img/2017-11-29-a-not-that-great-attempt-at-simulating-the-world-cup-draw/most%20groups%20containing%20Serbia.png" /></p>
+<p>I recommend having a play around with the data, as there are some interesting results. For example, there’s only 8 different ways Serbia could end up without another European opponent - each with about a 1% chance. As the only European team in pot 4, the probabilities of Serbia’s opponents are quite severe one way or another.</p>
+<div class="figure">
+<img src="/img/2017-11-29-a-not-that-great-attempt-at-simulating-the-world-cup-draw/most%20groups%20containing%20Serbia.png" />
+
+</div>
 <div class="figure">
 <img src="/img/2017-11-29-a-not-that-great-attempt-at-simulating-the-world-cup-draw/Serbian%20groups%20with%20no%20EU.png" />
 

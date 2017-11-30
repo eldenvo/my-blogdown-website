@@ -55,18 +55,38 @@ The code is fairly comprehensible, and it works well, and quickly, without any l
 
 I tried to copy the first method, and improve on it and recode some of it in a way that was more understandable to me. The process followed is to put Russia into group A, then randomly allocate the rest of the pot 1 teams to the groups. Then go through pot by pot and draw each set of teams in a confederation, depending on how restrained they would be. So that means for the 2nd round of the draw, taking the South American teams, determining which groups they are able to go to, and randomly assigning them to one of those - and then putting the European teams and Mexico into the rest of the groups. Then repeat that process through the draw until the end. 
 
-```{r setup, echo = T, warning = F, message  = F}
+
+```r
 library(tidyverse)
 
 seeds <- read_csv("https://gist.github.com/eldenvo/fb0d27fcb5d322b538d06cdc06b1c559/raw/3eaaab91c29d2dde6c9a28377b325844b834df13/seeds.csv")
 ```
 
-```{r head df, echo=TRUE, warning = FALSE}
+
+```r
 print(seeds)
 ```
 
+```
+## # A tibble: 32 x 4
+##          nation  rank   pot        confed
+##           <chr> <int> <int>         <chr>
+##  1       Russia    65     1        Europe
+##  2       Brazil     2     1 South America
+##  3         Iran    34     3          Asia
+##  4        Japan    44     4          Asia
+##  5       Mexico    16     2 North America
+##  6      Belgium     5     1        Europe
+##  7  South Korea    62     4          Asia
+##  8 Saudi Arabia    63     4          Asia
+##  9      Germany     1     1        Europe
+## 10      England    12     2        Europe
+## # ... with 22 more rows
+```
+
 This is the function to do the draw:
-```{r sim function, echo=TRUE, warning = FALSE}
+
+```r
 sim_draw <- function(x) {
   
   ## Round 1 of draw
@@ -252,6 +272,23 @@ sim_draw <- function(x) {
 }
 
 sim_draw(seeds)
+```
+
+```
+## # A tibble: 32 x 3
+##       nation  seed group
+##        <chr> <int> <chr>
+##  1    Russia     1     A
+##  2    Brazil     1     B
+##  3   Belgium     1     C
+##  4  Portugal     1     D
+##  5   Germany     1     E
+##  6    Poland     1     F
+##  7    France     1     G
+##  8 Argentina     1     H
+##  9      Peru     2     A
+## 10   England     2     B
+## # ... with 22 more rows
 ```
 
 Phew! If you want to run the simulation lots of times, you can do `replicate(10000, sim_draw(seeds))` You can get [my file with 1,000,000 simulations here.](https://github.com/eldenvo/world-cup-2018-draw/blob/master/data/sims.rds)
