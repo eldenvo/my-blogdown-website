@@ -270,10 +270,12 @@ sim_draw(seeds)</code></pre>
 <div id="findings-and-flaws" class="section level3">
 <h3>Findings and flaws</h3>
 <p>Cutting to the chase, here are the results:</p>
+
 <div class="figure">
-<img src="img/2017-11-29-a-not-that-great-attempt-at-simulating-the-world-cup-draw/most-likely-opponents-grid.png" />
+<img src="https://raw.githubusercontent.com/eldenvo/my-blogdown-website/master/public/img/2017-11-29-a-not-that-great-attempt-at-simulating-the-world-cup-draw/most-likely-opponents-grid.png" />
 
 </div>
+  
 <p>Interesting!</p>
 <p>Clearly, one value stands out there, and that is the Iran-Panama match up. If you compare mine to the <a href="https://i.imgur.com/CwWYdFV.png">earlier person from reddit’s findings</a> then you’ll see we disagree, and I think they are right. The flaw in my simulation comes in pot 4: the constraints of the draw can be such that there are lots of ways you could correctly draw the teams up to that point that make it difficult to find space for the remaining teams. In my sim, I draw Serbia, then the two African teams, then Panama, then the 4 remaining Asian teams.</p>
 <p>When I draw Panama, the simulation says that if the group containing the only Asian team not in pot 4 (Iran), has not yet been given a pot 4 team, then Panama must go into that - because if it didn’t, there would only be three groups remaining with no Asian confederation teams, and four Asian teams to draw. I imagine that the proper draw will do <em>something</em> like this, but I believe the way I’m doing it means it quite drastically over-estimates the frequency of Iran and Panama being in the same group. Also, my method has the sad side effect of creating a small chance (4%) of Panama and Mexico being in the same group - which cannot happen in reality.</p>
